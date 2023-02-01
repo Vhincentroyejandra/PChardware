@@ -1,0 +1,249 @@
+//Vhincent Roy L. Ejandra
+//IT2A
+import java.util.*;
+import java.util.ArrayList;
+
+class PCHardware {//instance variable to store code
+	 int code;
+	  String employees;
+	  String name;
+	  String peripheral;
+	
+	  PCHardware(int code, String name, String peripheral,String employees) {// constructor to initialize instance variables
+	    this.code = code;
+	    this.name = name;
+	    this.employees = employees;
+	    this.peripheral = peripheral;
+	  }
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	public String getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(String employees) {
+		this.employees = employees;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPeripheral() {
+		return peripheral;
+	}
+
+	public void setPeripheral(String peripheral) {
+		this.peripheral = peripheral;
+	}
+
+	
+}
+public class Main {
+	static ArrayList<PCHardware> PCHardwareList = new ArrayList<>();
+	//Declaring and initializing an ArrayList to store objects of type PCHardware
+	
+	  static Scanner sc = new Scanner(System.in);
+	//Declaring a Scanner object to get input from the user
+	  
+	  static int code = (int)(System.currentTimeMillis()/1000)%1000;
+	//Generating a code for each PCHardware object
+	  
+	public static void main(String[] args) {
+		boolean run = true;
+		//Declaring and initializing a flag to control the loop
+		System.out.println("================================'WELCOME TO PC INVENTORY HARDWARE SYSTEM'======================================");
+	    while(run) {//Loop to display the menu and get user input
+	      System.out.println("[1] Add Record");//Option to add a PCHardware record
+	      System.out.println("[2] View Record");//Option to view a PCHardware record
+	      System.out.println("[3] Edit Record");//Option to edit a PCHardware record
+	      System.out.println("[4] Delete Record"); //Option to delete a PCHardware record
+	      System.out.println("[5] Exit");//Option to exit the system
+	      System.out.println("==========================================================================================");
+	      System.out.print("Pls.Choose an Option: ");//Prompting the user to choose an option
+
+	      int option = sc.nextInt();//Getting user input for the menu option
+	      switch(option) {
+	        case 1://Option to add a record
+	        	 addRecord();//Calling the addRecord method
+	          break;
+	        case 2://Option to view a record
+	        	viewRecord();//Calling the viewRecord method
+	          break;
+	        case 3://Option to edit a record
+	        	editRecord();//Calling the editRecord method
+	          break;
+	        case 4://Option to delete a record
+	        	deleteRecord();//Calling the deleteRecord method
+	          break;
+	        case 5://Option to exit the system
+	          run = false;//Setting the flag to false to exit the loop
+	          break;
+	        default://In case of invalid input
+	          System.out.println("==========================================================================================");
+	          System.out.println("Invalid option!Pls. Try Again");//Error message
+	          System.out.println("==========================================================================================");
+	          break;
+     }
+   }
+  }
+	private static void addRecord() {
+	    System.out.print("Enter Peripheral Name: ");//Prompting user to enter peripheral name
+	    String name = sc.next();
+	    System.out.print("Enter peripheral Code: ");//Prompting user to enter peripheral code
+	    int code = sc.nextInt();
+	    System.out.print("Enter Employees Name: ");//Prompting user to enter employee name
+	    String employees = sc.next();
+	    System.out.print("Enter peripheral Type (Input/Output): ");//Prompting user to enter peripheral type (Input/Output)
+	    String peripheral = sc.next();
+
+	    PCHardwareList.add(new PCHardware(code, name, peripheral,employees));//Adding a new record to the PCHardwareList
+	    System.out.println("==========================================================================================");
+	    System.out.println("Record added successfully.");//Confirmation message for successful addition of record
+	    System.out.println("==========================================================================================");
+	    
+	  }
+	private static void viewRecord() {
+	    System.out.println("[1] Peripheral Record");//Option to view all peripheral records
+	    System.out.println("[2] Available Peripherals");//Option to view available peripherals
+	    System.out.println("[3] Assigned Peripherals");//Option to view assigned peripherals
+	    System.out.println("[4] Input Devices");//Option to view input devices
+	    System.out.println("[5] Output Devices");//Option to view output devices
+	    System.out.println("[6] Employees");//Option to view employees
+	    System.out.println("==========================================================================================");
+	    System.out.print("Pls. Choose an option: ");//Prompting user to choose a view option
+	    
+	    int option = sc.nextInt();// user input for menu option
+	    switch(option) {// switch statement to execute based on user input
+	      case 1:
+	        System.out.print("Pls.Enter the code: ");// prompt user to enter code
+	        int code = sc.nextInt();
+	        PCHardware pcHardware = getPCHardware(code);// get the PC hardware information using the code
+	        
+	        if(pcHardware != null) {// if PC hardware information is found, display details
+	          System.out.println("Code: " + pcHardware.code);
+	          System.out.println("Peripheral Name: " + pcHardware.name);
+	          System.out.println("Employees: " + pcHardware.employees);
+	          System.out.println("Peripheral Type: " + pcHardware.peripheral);
+	          System.out.println("==========================================================================================");
+	        }
+	        else {// if PC hardware information is not found, display error message
+	          System.out.println("==========================================================================================");
+	          System.out.println("Record not found! Pls try Agai n..");
+	          System.out.println("=========================================================s=================================");
+	        }
+	        break;
+	      case 2:// display the list of available peripherals
+	    	  System.out.println("==========================================================================================");
+	          System.out.println("---------Available Peripherals---------");
+	          for(PCHardware pc : PCHardwareList) {
+	        	  System.out.println("Peripheral Name: " + pc.getName() + " Peripheral Type: " + pc.getPeripheral());
+	        	  System.out.println("==========================================================================================");
+	          }
+	          break;
+	      case 3:// display the list of assigned peripherals
+	    	  System.out.println("==========================================================================================");
+	    	  System.out.println("--------Assigned Peripherals-------- ");
+	    	  for(PCHardware pc : PCHardwareList) {
+	    		  if(pc.peripheral.equals("Input")) {
+	    			  System.out.println("Code: " + pc.getCode() + " Peripheral Type: " + pc.getPeripheral());
+	    			  System.out.println("==========================================================================================");
+	    	   }
+	    }
+	    	  break;
+	      case 4:// display the list of input devices
+	    	  System.out.println("==========================================================================================");
+	    	  System.out.println("--------Input Devices-------");
+	    	  for(PCHardware pc : PCHardwareList) {
+	    	  if(pc.peripheral.equals("Input")) {
+	    	  System.out.println("Peripheral Name: " + pc.getName() + " Code: " + pc.getCode() + " Peripheral Type: " + pc.getPeripheral());
+	    	  System.out.println("==========================================================================================");
+	    	  }
+	    }
+	    	  break;
+	      case 5:// display the list of output devices
+	    	  System.out.println("==========================================================================================");
+	    	  System.out.println("-------Output Devices-------");
+	    	  for(PCHardware pc : PCHardwareList) {
+	    	  if(pc.peripheral.equals("Output")) {
+	    	  System.out.println("Peripheral Name: " + pc.getName() +  "Code: " + pc.getCode() +  " Peripheral Type: " + pc.getPeripheral());
+	    	  System.out.println("==========================================================================================");
+	    	  }
+	    }
+	    	  break;
+	      case 6:// display the list of employees
+	    	  System.out.println("-------Employees-------");
+	    	  for(PCHardware pc : PCHardwareList) {
+	    	  if(pc.peripheral.equals("Names")) {
+	    	  System.out.println("Employees: " + pc.getEmployees() + " Code: " + pc.getCode() + "Peripheral Name: " + pc.getName() + " Peripheral Type: " + pc.getPeripheral());
+	    	  System.out.println("==========================================================================================");
+	    	  }
+	    }
+	    	  break;
+	    	  default:
+	    	  System.out.println("==========================================================================================");
+	    	  System.out.println("Invalid option!pls. Try again.");
+	    	  System.out.println("==========================================================================================");
+	    	  break;
+
+	          }
+	   }
+	private static void editRecord() {
+		System.out.print("Enter the code: ");
+		int code = sc.nextInt();
+		PCHardware pcHardware = getPCHardware(code); // get the PCHardware object with the entered code
+		if(pcHardware != null) {// if the PCHardware object is found
+	    System.out.print("Enter Employees Name: ");
+	    pcHardware.employees = sc.next();
+		System.out.print("Enter New Peripheral name: ");
+		pcHardware.name = sc.next();
+		System.out.print("Enter New peripheral Type(Input-Output): ");
+		pcHardware.peripheral = sc.next();
+		// prompt the user to enter the updated values for employees, name, and peripheral
+		System.out.println("==========================================================================================");
+		System.out.println("Record updated successfully.");// print success message
+		System.out.println("==========================================================================================");
+		}
+		else {
+		System.out.println("==========================================================================================");
+		System.out.println("Record not found!Pls.Try Again");// if the PCHardware object is not found, print error message
+		System.out.println("==========================================================================================");
+		}
+		}
+	private static void deleteRecord() {// Function to delete a record from the PCHardwareList
+		System.out.print("Enter code: ");// Prompt user to enter the code of the record to be deleted
+		int code = sc.nextInt();
+		PCHardware pcHardware = getPCHardware(code);
+		if(pcHardware != null) {// Remove the PCHardware object from the PCHardwareList
+		PCHardwareList.remove(pcHardware);// Display a message to confirm the deletion of the record
+		System.out.println("==========================================================================================");
+		System.out.println("Record deleted successfully.");
+		System.out.println("==========================================================================================");
+		}
+		else {
+		System.out.println("==========================================================================================");
+		System.out.println("Record not found! Pls.try Again.");
+		System.out.println("==========================================================================================");
+		}
+		}
+	private static PCHardware getPCHardware(int code) {// Function to get the PCHardware object with the given code from the PCHardwareList
+		for(PCHardware pc : PCHardwareList) {
+		if(pc.code == code) {// If the code of the current PCHardware object matches the given code
+		return pc;// Return the current PCHardware object
+		}
+		}
+		return null;
+	}
+}
+
